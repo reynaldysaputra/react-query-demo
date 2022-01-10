@@ -11,7 +11,7 @@ function addSuperHero(hero) {
 
 export function useSuperHeroesData(props) {
   return useQuery(
-    'super-heroes', 
+    ['super-heroes', {version: 5}], 
     fetchSuperHeroes,
     {
       cacheTime: 5000, // cache di set 5 detik, jadi jika query tidak aktif selama 5 detik dan ketika query aktif, maka dia akan refetch ulang
@@ -33,7 +33,7 @@ export function useAddSuperHeroesData(){
   const queryClient = useQueryClient();
 
   return useMutation(addSuperHero, {
-    onSuccess: async ({ data }) => {
+    onMutate: async ({ data }) => {
       const previousHeroData = queryClient.getQueriesData('super-heroes');
       
       await queryClient.cancelQueries('super-heroes');
@@ -57,7 +57,7 @@ export function useAddSuperHeroesData(){
       queryClient.setQueryData('super-heroes', context.previousHeroData);
     },
 
-    onSettled: (data, error) => {
+    onSuccess: (data, error) => {
       queryClient.invalidateQueries('super-heroes');
     }
   });

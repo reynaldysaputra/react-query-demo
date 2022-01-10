@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useQueryClient } from "react-query";
 import { Link } from "react-router-dom";
 import { useAddSuperHeroesData, useSuperHeroesData } from "../hooks/useSuperHeroesData";
 
@@ -7,6 +8,15 @@ function RqSuperHeroes(params) {
   const [alterEgo, setAlterEgo] = useState(''); 
   const {mutate, error: mutateMessageError, isError: mutateError} = useAddSuperHeroesData();
   const { data: result, isLoading, isError, error, refetch, isFetching } = useSuperHeroesData();
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    queryClient.invalidateQueries({
+      predicate: query => {
+        return console.log(query)
+      }
+    })
+  }, [])
 
   const handleAddHero = (e) => {
     e.preventDefault();
