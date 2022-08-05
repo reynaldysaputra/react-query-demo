@@ -11,7 +11,7 @@ function addSuperHero(hero) {
 
 export function useSuperHeroesData(props) {
   return useQuery(
-    ['super-heroes', {version: 5}], 
+    ['super-heroes'], 
     fetchSuperHeroes,
     {
       cacheTime: 5000, // cache di set 5 detik, jadi jika query tidak aktif selama 5 detik dan ketika query aktif, maka dia akan refetch ulang
